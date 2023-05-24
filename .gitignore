@@ -13,19 +13,19 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-/app_index/vendor
-/app_noindex/vendor
+/index/vendor
+/noindex/vendor
 
 # composer itself is not needed
-/app_index/composer.phar
-/app_noindex/composer.phar
+/index/composer.phar
+/noindex/composer.phar
 
 # composer lock
-/app_index/composer.lock
-/app_noindex/composer.lock
+/index/composer.lock
+/noindex/composer.lock
 
 #vagrant folder
-/app_index/.vagrant
-/app_noindex/.vagrant
+/index/.vagrant
+/noindex/.vagrant
 
 /docker/mysql/dumps/*
