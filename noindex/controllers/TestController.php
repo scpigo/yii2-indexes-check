@@ -12,10 +12,15 @@ class TestController extends Controller
     public function actionIndex()
     {
         ini_set("memory_limit","512M");
-        $result = IssueData::find()->where(['project_id' => 423])->all();
+
+        $start = microtime( true );
+
+        IssueData::find()->where(['project_id' => 423])->all();
+
+        $diff = sprintf( '%.6f sec.', microtime( true ) - $start );
 
         return $this->asJson([
-            'data' => $result
+            'time' => $diff
         ]);
     }
 }
