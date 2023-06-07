@@ -15,7 +15,12 @@ class TestController extends Controller
 
         $start = microtime( true );
 
-        IssueData::find()->where(['project_id' => 423])->all();
+        IssueData::find()
+            ->leftJoin('user', 'issue_data.user_id = user.id')
+            ->leftJoin('project', 'issue_data.project_id = project.id')
+            ->leftJoin('work_type', 'issue_data.work_type_id = work_type.id')
+            ->where(['issue_data.parent_id' => 4060])
+            ->all();
 
         $diff = sprintf( '%.6f sec.', microtime( true ) - $start );
 
