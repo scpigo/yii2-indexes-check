@@ -7,6 +7,8 @@
 
 namespace app\commands;
 
+use app\models\IssueData;
+use yii\base\Security;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -25,9 +27,20 @@ class HelloController extends Controller
      * @param string $message the message to be echoed.
      * @return int Exit code
      */
-    public function actionIndex($message = 'hello world')
+    public function actionIndex()
     {
-        echo $message . "\n";
+        $sec = new Security();
+        for ($i = 0; $i < 50000; $i++) {
+            $model = new IssueData();
+
+            $model->issue_id = 33;
+            $model->project_id = 43;
+            $model->issue_subject = $sec->generateRandomString();
+            $model->user_id = random_int(200,207);
+            $model->work_type_id = random_int(1,6);
+
+            $model->save();
+        }
 
         return ExitCode::OK;
     }

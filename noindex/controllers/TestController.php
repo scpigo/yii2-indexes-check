@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\IssueData;
 use yii\web\Controller;
 
@@ -15,17 +16,23 @@ class TestController extends Controller
 
         $start = microtime( true );
 
-        IssueData::find()
-            ->leftJoin('user', 'issue_data.user_id = user.id')
-            ->leftJoin('project', 'issue_data.project_id = project.id')
-            ->leftJoin('work_type', 'issue_data.work_type_id = work_type.id')
-            ->where(['issue_data.parent_id' => 4060])
-            ->all();
+        $connection = Yii::$app->getDb();
+        $command = $connection->createCommand("
+            EXPLAIN FORMAT=TREE
+            SELECT *
+            FROM issue_data 
+                LEFT JOIN user ON issue_data.user_id = user.id
+                LEFT JOIN project ON issue_data.project_id = project.id
+                LEFT JOIN work_type ON issue_data.work_type_id = work_type.id
+            WHERE issue_data.issue_subject = \"изменить создание поста по шаблону\"");
+
+        $result = $command->queryAll();
 
         $diff = sprintf( '%.6f sec.', microtime( true ) - $start );
 
-        return $this->asJson([
-            'time' => $diff
-        ]);
+        echo '<pre>';
+        print_r($diff);
+        echo "\n";
+        print_r($result);
     }
 }
